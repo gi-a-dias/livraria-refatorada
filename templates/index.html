@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Livraria - Monólito Modular</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f4f6f9; padding: 40px; margin: 0; }
+        .container { max-width: 650px; background: white; padding: 30px; margin: 0 auto; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        h1 { color: #2c3e50; text-align: center; }
+        form { display: flex; gap: 10px; margin-bottom: 20px; }
+        input[type="text"] { flex: 1; padding: 10px; border: 1px solid #ccc; border-radius: 4px; }
+        button, .btn { padding: 10px 15px; background: #3498db; color: white; border: none; border-radius: 4px; text-decoration: none; cursor: pointer; font-weight: bold; }
+        .btn-limpar { background: #95a5a6; }
+        ul { list-style: none; padding: 0; }
+        li { background: #f8f9fa; border: 1px solid #e9ecef; margin-bottom: 10px; padding: 12px 15px; border-radius: 5px; display: flex; justify-content: space-between; align-items: center; }
+        .fav-link { text-decoration: none; font-size: 14px; font-weight: bold; color: #e74c3c; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Catálogo da Livraria (Monólito Modular)</h1>
+
+        <form method="GET" action="/">
+            <input type="text" name="genero" value="{{ genero }}" placeholder="Filtrar por gênero (ex: Fantasia)">
+            <button type="submit">Filtrar</button>
+            <a href="/" class="btn btn-limpar">Limpar</a>
+        </form>
+
+        <hr>
+
+        <ul>
+            {% for livro in livros %}
+                <li>
+                    <span><strong>{{ livro.titulo }}</strong> | {{ livro.genero }} | R$ {{ "%.2f"|format(livro.preco) }}</span>
+                    <a href="/favoritos/favoritar/{{ livro.id }}" class="fav-link">
+                        {% if livro.id in favoritos %}
+                            ❤️ [Remover]
+                        {% else %}
+                            🤍 [Favoritar]
+                        {% endif %}
+                    </a>
+                </li>
+            {% else %}
+                <p style="text-align: center; color: #7f8c8d;">Nenhum livro encontrado.</p>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>
